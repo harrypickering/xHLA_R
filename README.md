@@ -38,10 +38,10 @@ i.e. in R
 
 >install.packages("jsonlite")  
 >install.packages("lpSolve")  
->install.packages("data.table")
+>install.packages("data.table")  
 >install.packages("parallel")  
->install.packages("IRanges")
-
+>install.packages("IRanges")  
+  
 IMPORTANT
 
 Download a fasta reference file for chromosome 6 or the MHC region. You could use this one http://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/chr6.fa.gz

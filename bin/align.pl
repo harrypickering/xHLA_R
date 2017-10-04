@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# Author: Xie Chao
+# Author: Xie Chao = Mods by Chrissy h Roberts
 use strict;
 use List::Util qw(min);
 #use Text::Levenshtein::XS qw/distance/;
@@ -8,12 +8,15 @@ my $bin=$FindBin::Bin;
 my $root = $bin;
 $root =~ s|/[^/]+?$||;
 
+print STDERR "root is $root\n";
+
 die "usage: $0 fastq output\n" unless $#ARGV >= 1;
 my $doDNA = 1 if $#ARGV > 1;
 my $fastq_file = shift;
 my $out_file = shift;
-
+print STDERR "FASTQ file is $fastq_file\n";
 print STDERR "processing FASTQ file\n";
+
 my %qseq;
 my %qlen;
 my $open_fastq = $fastq_file;
@@ -43,6 +46,7 @@ my %type;
 my %gene;
 my %is_gene;
 open(IN, "$root/data/hla.tsv") or die $!;
+print STDERR "got  $root/data/hla.tsv\n";
 while(<IN>)
 {
 	chomp;
@@ -60,7 +64,7 @@ while(<IN>)
 print STDERR "\tfound ", scalar(keys %tseq), " HLA exons\n";
 
 print STDERR "processing FASTQ file\n";
-open(IN, "diamond blastx -t . -C 20000 --index-mode 1 --seg no --min-score 10 --top 20 -c 1 -d $root/data/hla -q $fastq_file -f tab --quiet -o /dev/stdout |") or die $!;
+open(IN, "diamond blastx -t . --index-mode 1  --min-score 10 --top 20 -c 1 -d $root/data/hla -q $fastq_file -f tab --quiet -o /dev/stdout |") or die $!;
 my %mLEN;
 my %mlen;
 my %match;

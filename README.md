@@ -29,6 +29,10 @@ Download this repo to your computer.
 Ensure that you have installed the diamond aligner and seqtk (sequence toolkit).
 Install the R packages "jsonlite" and "lpSolve"
 
+Download a fasta reference file for chromosome 6 or the MHC region. You could use this one http://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/chr6.fa.gz
+Put the fasta file in the chr6/ folder
+
+
 Running 
 ------------
 Put your paired end read fastq files in the input folder

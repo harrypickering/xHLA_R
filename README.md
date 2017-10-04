@@ -49,7 +49,7 @@ CD1-058_S166	2017-10-04T10:14:17Z	1.2	hla_typing	A*24:02	A*68:02	B*18:01	B*27:03
 
 
 
-Output is a JSON file that lists 12 HLA alleles, 2 for each of the HLA genes:
+Output 2 is a JSON file for each specimen that lists 12 HLA alleles, 2 for each of the HLA genes:
 
 ```bash
 {

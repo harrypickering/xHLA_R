@@ -18,6 +18,7 @@ if(length(which(samples$id==""))>0){samples<-samples[-which(samples$id==""),]}
 #run HLA typing analysis on all specimens
 for (i in 1:dim(samples)[1])
 {
+sink(paste("logs/",samples$id[i],".log",sep=""))
 
   message(paste("starting analysis ",samples$readone[i],sep=""))
   message("getting sampled data set from fastq files")
@@ -26,11 +27,22 @@ for (i in 1:dim(samples)[1])
   system(paste("seqtk sample -s", seeder ," input/", samples$readone[i]," 15000 > input/input_tmp1.fastq",sep=""))
   system(paste("seqtk sample -s", seeder ," input/", samples$readtwo[i]," 15000 > input/input_tmp2.fastq",sep=""))
 
-message("running xHLA on data")
-  system(paste("./000_master_control_script.sh input/input_tmp1.fastq input/input_tmp2.fastq ", samples$id[i]," 2> logs/", samples$id[i],".log",sep="" ))
+message("Running bwa to compare chr6 to fastq")
+system(paste("bwa mem chr6/chr6.fa input/input_tmp1.fastq input/input_tmp2.fastq > input/",samples$id[i],".sam",sep=""))
+
+message("Running samtools to index and align reads")
+
+system(paste("samtools view -bT chr6/chr6.fa input/",samples$id[i],".sam > input/",samples$id[i],".bam",sep=""))
+system(paste("samtools sort input/",samples$id[i],".bam > input/",samples$id[i],".sorted.bam",sep=""))
+system(paste("samtools index input/",samples$id[i],".sorted.bam input/",samples$id[i],".sorted.bai",sep=""))
+
+message("running xHLA typer.sh")
+
+system(paste("perl bin/typer.sh input/",samples$id[i],".sorted.bam ",samples$id[i],sep=""))
+
 
 message("reading results data")  
-  tmp1<-fromJSON(txt=paste("hla",samples$id[i],"/",samples$id[i],".json",sep=""))
+  tmp1<-fromJSON(txt=paste("hla-",samples$id[i],"/",samples$id[i],".json",sep=""))
   write_json(x = tmp1,path = paste("output/",samples$id[i],".json",sep=""))
 
 
@@ -59,12 +71,15 @@ message("reading results data")
   data_out<-outputreport
 
   message("writing results to output/000_alldata_out.txt")
-  write.table(outputreport,append = T,file = "output/000_alldata_out.txt",col.names = F,row.names = F,sep = "\t",quote=F)
-
+  if(file.exists("output/000_alldata_out.txt")){write.table(outputreport,append = T,file = "output/000_alldata_out.txt",col.names = F,row.names = F,sep = "\t",quote=F)}
+  if(!file.exists("output/000_alldata_out.txt")){write.table(outputreport,append = F,file = "output/000_alldata_out.txt",col.names = T,row.names = F,sep = "\t",quote=F)}
+	
   system("rm input/input_tmp*.fastq")
   system("rm input/*.sam")
   system("rm input/*.bam")
   system("rm input/*.bai")
   system(paste ("rm -rf hla-",samples$id[i],"a/",sep=""))
   system(paste ("rm -rf hla-",samples$id[i],"b/",sep=""))
+  message("done")
+  sink()
 }

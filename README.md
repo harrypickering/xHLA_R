@@ -1,4 +1,4 @@
-xHLA: Fast and accurate HLA typing from short read sequence data
+xHLA_ARRRRRR
 ================================================================
 The Human Leukocyte Antigen (HLA) gene complex on human chromosome
 6 is one of the most polymorphic regions in the human
@@ -10,35 +10,32 @@ the amino acid level to achieve 99 to 100% 4-digit typing accuracy for both
 class I and II HLA genes, taking only about 3 minutes to process a 30X
 whole genome BAM file on a desktop computer.
 
+
+Background to this fork
+------------
+We had issues getting the main repo for xHLA to work via the docker installation, so we performed a quick and dirty stripdown of the code to make it work for us. The original scripts have been hacked slightly and we've added some control scripts that run via R or R studio. 
+This is intended to run as a batch mode process that will perform HLA typing on all of the fastq files in the input directory. At the end it generates a tidy table of results data. Along the way it deletes all the files except for the final json files. Obviously some of those files might be useful to some people, but for our purposes of quick and dirty typing we are happy just to save disk space and keep the final typing data. To change this behaviour just edit the R scripts to take out the rm command calls to the system.
+
+We have found that the typing algorithm works reproducibly given a sample of 15000 reads from MiSeq 2*300 data that was generated from exons amplified using the methods described by Lange, V. et al BMC Genomics. 2014; 15: 63. http://doi.org/10.1186/1471-2164-15-63
+
+The R script calls seqtk to pull out a random sample of reads from each of the two read files. The same random seed is used to pull read 1 and read 2 so that the reads remain paired. You can change the number of reads that are pulled by 
+
 Installation
 ------------
-Simply pull from Docker hub:
+Clone this repo to your computer. 
 
-```bash
-docker pull humanlongevity/hla
-```
+Ensure that you have installed the diamond aligner and seqtk (sequence toolkit).
+Install the R packages "jsonlite" and "lpSolve"
 
-Or, compile docker image yourself:
+Running 
+------------
+Put your paired end read fastq files in the input folder
+Run the 0000_super_master_controller_batchmode.R script.
 
-```bash
-cd docker
-make build
-make deploy
-```
+#
+The 0000_super_master_controller_batchmode.R script will read the FASTQ files, sample 15000 reads using seqtk, then forward the data to 000_master_control_script.sh. That script runs bwa, samtools and the xHLA typer script. 
 
-Usage
------
-Run xHLA caller directly on an indexed BAM file generated using
-BWA-mem against hg38 reference without alt contigs:
 
-```bash
-docker run -v `pwd`:`pwd` -w `pwd` humanlongevity/hla \
-    --sample_id test --input_bam_path test.bam \
-    --output_path test
-```
-
-For other types of BAMs, pre-processing is required. **Please check details
-[here](https://github.com/humanlongevity/HLA/wiki/BAMs-compatible-with-xHLA).**
 
 Output is a JSON file that lists 12 HLA alleles, 2 for each of the HLA genes:
 

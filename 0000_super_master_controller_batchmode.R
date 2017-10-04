@@ -1,4 +1,3 @@
-#requires install.packages("jsonlite")
 library(jsonlite)
 library(lpSolve)
 
@@ -19,21 +18,18 @@ samples$readtwo<-paste(samples$id,"_L001_R2_001.fastq",sep="")
 #run HLA typing analysis on all specimens
 for (i in 1:dim(samples)[1])
 {
-  #get first data set
+
+  message(paste("starting analysis ",samples$readone[i],sep=""))
+  message("getting sampled data set from fastq files")
   seeder<-sample(1:1e6, 1)
 
   system(paste("seqtk sample -s", seeder ," input/", samples$readone[i]," 15000 > input/input_tmp1.fastq",sep=""))
   system(paste("seqtk sample -s", seeder ," input/", samples$readtwo[i]," 15000 > input/input_tmp2.fastq",sep=""))
 
-  #seeder<-sample(1:1e6, 1)
-
-  #system(paste("seqtk sample -s", seeder ," input/", samples$readone[i]," 15000 > input/input_tmp1b.fastq",sep=""))
-  #system(paste("seqtk sample -s", seeder ," input/", samples$readtwo[i]," 15000 > input/input_tmp2b.fastq",sep=""))
-
-  #run first analysis
+message("running xHLA on data")
   system(paste("./000_master_control_script.sh input/input_tmp1.fastq input/input_tmp2.fastq ", samples$id[i]," 2> logs/", samples$id[i],".log",sep="" ))
-  #system(paste("./000_master_control_script.sh input/input_tmp1b.fastq input/input_tmp2b.fastq ", samples$id[i],"b 2> logs/", samples$id[i],".log",sep="" ))
 
+message("reading results data")  
   tmp1<-fromJSON(txt=paste("hla-",samples$id[i],"a/",samples$id[i],".json",sep=""))
   #tmp2<-fromJSON(txt=paste("hla-",samples$id[i],"a/",samples$id[i],"a.json",sep=""))
   #tmp1$hla$matches<-tmp1$hla$alleles==tmp2$hla$alleles
@@ -64,6 +60,7 @@ for (i in 1:dim(samples)[1])
   rm(tmp)
   data_out<-outputreport
 
+  message("writing results to output/000_alldata_out.txt")
   write.table(outputreport,append = T,file = "output/000_alldata_out.txt",col.names = F,row.names = F,sep = "\t",quote=F)
 
   system("rm input/input_tmp*.fastq")

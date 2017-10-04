@@ -11,7 +11,7 @@ names(samples)<-c("id")
 
 samples$readone<-paste(samples$id,"_L001_R1_001.fastq",sep="")
 samples$readtwo<-paste(samples$id,"_L001_R2_001.fastq",sep="")
-
+if(length(which(samples$id==""))>0){samples<-samples[-which(samples$id==""),]}
 
 
 
@@ -30,9 +30,7 @@ message("running xHLA on data")
   system(paste("./000_master_control_script.sh input/input_tmp1.fastq input/input_tmp2.fastq ", samples$id[i]," 2> logs/", samples$id[i],".log",sep="" ))
 
 message("reading results data")  
-  tmp1<-fromJSON(txt=paste("hla-",samples$id[i],"a/",samples$id[i],".json",sep=""))
-  #tmp2<-fromJSON(txt=paste("hla-",samples$id[i],"a/",samples$id[i],"a.json",sep=""))
-  #tmp1$hla$matches<-tmp1$hla$alleles==tmp2$hla$alleles
+  tmp1<-fromJSON(txt=paste("hla",samples$id[i],"/",samples$id[i],".json",sep=""))
   write_json(x = tmp1,path = paste("output/",samples$id[i],".json",sep=""))
 
 

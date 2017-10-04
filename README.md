@@ -13,7 +13,7 @@ whole genome BAM file on a desktop computer.
 
 Background to this fork
 ------------
-We had issues getting the main repo for xHLA to work via the main docker-based repo, so we performed a quick and dirty stripdown of the code to make it work for us. The original scripts have been hacked slightly and we've added some control scripts that should be easy to run via R or R studio. 
+We had issues getting the main repo for xHLA to work via the main docker-based repo, so we performed a quick and dirty stripdown of the code to make it work for us. The original scripts have been hacked slightly and we've added some control scripts that should be easy to run via R or R studio. Some files needed to be moved around as the stripped out scripts typer.r and typer.sh were looking in the wrong place and it was easier to move the targets than to change the scripts
 
 This is intended to run as a batch mode process that will perform HLA typing on all of the fastq files in the input directory. At the end it generates a tidy table of results data. Along the way it deletes all the files except for the final json files. Obviously some of those files might be useful to some people, but for our purposes we are happy just to save disk space and keep the final typing data. To change this behaviour just edit the R scripts to take out the rm command calls to the system.
 
@@ -28,6 +28,10 @@ Download this repo to your computer.
 
 Ensure that you have installed the burrows wheeler aligner (BWA), the diamond aligner and seqtk (sequence toolkit).
 Install the R packages "jsonlite" and "lpSolve"
+i.e. in R
+>install.packages("jsonlite")  
+>install.packages("lpSolve")  
+
 
 Download a fasta reference file for chromosome 6 or the MHC region. You could use this one http://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/chr6.fa.gz
 Put the fasta file in the chr6/ folder and run 

@@ -47,17 +47,20 @@ i.e. in R
 >install.packages("parallel")  
 >install.packages("IRanges")  
   
-IMPORTANT
+IMPORTANT - The reference fasta file needs to be in place if you want this to work. 
 
 Download a fasta reference file for chromosome 6 or the MHC region. You could use this one http://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/chr6.fa.gz
 
-Put the fasta file in the chr6/ folder and run the burrows wheeler aligner to index it
+Put the fasta file in the chr6/ folder
+
+The R script will check to see if you have indexed your reference. If not it will automatically run the burrows wheeler aligner to index it. If you need to do it by hand for any reason, this command should achieve what you need
+
 >bwa index -a bwtsw chr6.fa
 
-IMPORTANT
-You need to build the hla diamond reference file hla.dmnd with your own system version of diamond
->cd data
->diamond makedb --in hla.faa -d hla
+IMPORTANT - The diamond reference database file (hla.dmnd) needs to be built with your own system version of diamond. The script will do this automatically at the start of each batch run. If you need to do this by hand, then the commands are simply.
+
+>cd data  
+>diamond makedb --in hla.faa -d hla  
 
 
 Running the xHLA_R script

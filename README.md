@@ -21,30 +21,52 @@ We have found that the typing algorithm works reproducibly given a sample of 150
 
 The R script calls seqtk to pull out a random sample of reads from each of the two read files. The same random seed is used to pull read 1 and read 2 so that the reads remain paired. You can change the number of reads that are pulled by changing the number in the two lines beneath "#randomly sample n reads from the fastq files" in the 0000_super_master_controller_batchmode.R file
 
+The 0000_super_master_controller_batchmode.R script will read the FASTQ files, sample 15000 reads using seqtk, then forward the data to  bwa, samtools and the xHLA typer script before pulling the reports in and making a nice tidy data table that you can read in R. 
+
+
+
 Installation
 ------------
 
 Download this repo to your computer. 
 
 Ensure that you have installed the burrows wheeler aligner (BWA), the diamond aligner and seqtk (sequence toolkit).
-Install the R packages "jsonlite" and "lpSolve"
+
+
+Install the R packages you will need. Some of these are native, but always worth checking.
 i.e. in R
+
 >install.packages("jsonlite")  
 >install.packages("lpSolve")  
+>install.packages("data.table")
+>install.packages("parallel")  
+>install.packages("IRanges")
 
+IMPORTANT
 
 Download a fasta reference file for chromosome 6 or the MHC region. You could use this one http://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/chr6.fa.gz
-Put the fasta file in the chr6/ folder and run 
+
+Put the fasta file in the chr6/ folder and run the burrows wheeler aligner to index it
 >bwa index -a bwtsw chr6.fa
 
 
-Running 
+Running the script
 ------------
 Put your paired end read fastq files in the input folder
-Run the 0000_super_master_controller_batchmode.R script.
+Run the 0000_super_master_controller_batchmode.R script (either through R, Rstudio or from the command line
+
+Command Line
+>Rscript 0000_super_master_controller_batchmode.R
+
+Command Line in background with log
+>nohup Rscript 0000_super_master_controller_batchmode.R &
+
+the report files will go to nohup.txt and you can monitor the progress with
+>tail -f nohup.txt
 
 
-The 0000_super_master_controller_batchmode.R script will read the FASTQ files, sample 15000 reads using seqtk, then forward the data to 000_master_control_script.sh. This bash script runs bwa, samtools and the xHLA typer script. 
+Output files
+------------
 
 Output 1 is tab delimited text file *000_alldata_out.txt* of all the data you've pushed through the system. New runs are appended to this file so be aware that if you re-run the test on the same pair of fastq files, you will have two lines matching that specimen.
 

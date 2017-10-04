@@ -27,7 +27,6 @@ message("running HLA typing analysis on all specimens")
 
 for (i in 1:dim(samples)[1])
 {
-sink(paste("logs/",samples$id[i],".log",sep=""))
 
   message(paste("starting analysis ",samples$readone[i],sep=""))
   message("getting sampled data set from fastq files")
@@ -90,5 +89,4 @@ message("reading results data")
   system(paste ("rm -rf hla-",samples$id[i],"a/",sep=""))
   system(paste ("rm -rf hla-",samples$id[i],"b/",sep=""))
   message("done")
-  sink()
 }

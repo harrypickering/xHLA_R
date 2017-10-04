@@ -26,11 +26,12 @@ Installation
 
 Download this repo to your computer. 
 
-Ensure that you have installed the diamond aligner and seqtk (sequence toolkit).
+Ensure that you have installed the burrows wheeler aligner (BWA), the diamond aligner and seqtk (sequence toolkit).
 Install the R packages "jsonlite" and "lpSolve"
 
 Download a fasta reference file for chromosome 6 or the MHC region. You could use this one http://hgdownload.cse.ucsc.edu/goldenPath/hg38/chromosomes/chr6.fa.gz
-Put the fasta file in the chr6/ folder
+Put the fasta file in the chr6/ folder and run 
+>bwa index -a bwtsw chr6.fa
 
 
 Running 

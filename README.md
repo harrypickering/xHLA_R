@@ -1,4 +1,4 @@
-xHLA_ARRRRRR
+xHLA_R
 ================================================================
 The Human Leukocyte Antigen (HLA) gene complex on human chromosome
 6 is one of the most polymorphic regions in the human

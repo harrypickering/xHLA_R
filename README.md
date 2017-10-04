@@ -32,6 +32,11 @@ Download this repo to your computer.
 
 Ensure that you have installed the burrows wheeler aligner (BWA), the diamond aligner and seqtk (sequence toolkit).
 
+We use Macs, so homebrew is our method of choice for installing these dependencies
+
+>brew install bwa
+>brew install diamond
+>brew install seqtk
 
 Install the R packages you will need. Some of these are native, but always worth checking.
 i.e. in R
@@ -49,8 +54,13 @@ Download a fasta reference file for chromosome 6 or the MHC region. You could us
 Put the fasta file in the chr6/ folder and run the burrows wheeler aligner to index it
 >bwa index -a bwtsw chr6.fa
 
+IMPORTANT
+You need to build the hla diamond reference file hla.dmnd with your own system version of diamond
+>cd data
+>diamond makedb --in hla.faa -d hla
 
-Running the script
+
+Running the xHLA_R script
 ------------
 Put your paired end read fastq files in the input folder
 Run the 0000_super_master_controller_batchmode.R script (either through R, Rstudio or from the command line

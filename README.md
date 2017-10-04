@@ -19,9 +19,9 @@ This is intended to run as a batch mode process that will perform HLA typing on 
 
 We have found that the typing algorithm works reproducibly given a sample of 15000 reads from MiSeq 2*300 data that was generated from exons amplified using the methods described by Lange, V. et al BMC Genomics. 2014; 15: 63. http://doi.org/10.1186/1471-2164-15-63
 
-The R script calls seqtk to pull out a random sample of reads from each of the two read files. The same random seed is used to pull read 1 and read 2 so that the reads remain paired. You can change the number of reads that are pulled by changing the number in the two lines beneath "#randomly sample n reads from the fastq files" in the 0000_super_master_controller_batchmode.R file
+The R script calls seqtk to pull out a random sample of reads from each of the two read files. The same random seed is used to pull read 1 and read 2 so that the reads remain paired. You can change the number of reads that are pulled by changing the number in the two lines beneath "#randomly sample n reads from the fastq files" in the xHLA.R file
 
-The 0000_super_master_controller_batchmode.R script will read the FASTQ files, sample 15000 reads using seqtk, then forward the data to  bwa, samtools and the xHLA typer script before pulling the reports in and making a nice tidy data table that you can read in R. 
+The xHLA.R script will read the FASTQ files, sample 15000 reads using seqtk, then forward the data to  bwa, samtools and the xHLA typer script before pulling the reports in and making a nice tidy data table that you can read in R. 
 
 
 

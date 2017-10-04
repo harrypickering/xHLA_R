@@ -151,4 +151,5 @@ DAMAGES, INCLUDING WITHOUT LIMITATION DAMAGES ARISING FROM OR RELATED TO LOSS OF
 USE, LOSS OF DATA, DOWNTIME, OR FOR LOSS OF REVENUE, PROFITS, GOODWILL, BUSINESS
 OR OTHER FINANCIAL LOSS.
 
-Any changes made on this fork inherit the terms of the above license.
+
+Changes made to The Code by Chrissy h Roberts inherit all the terms of the above license.

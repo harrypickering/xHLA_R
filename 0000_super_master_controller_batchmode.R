@@ -1,6 +1,13 @@
 library(jsonlite)
 library(lpSolve)
 
+message("checking installation of reference file")
+if(!file.exists("chr6/chr6.fa.pac")){system("bwa index -a bwtsw chr6/chr6.fa")}
+
+message("creating diamond file")
+system("diamond makedb --in data/hla.faa -d data/hla")
+
+message("unzipping any gz files")
 system("gunzip input/*.gz")
 a<-list.files(path = "input/",pattern = "fastq")
 a<-as.data.frame(a)
@@ -9,13 +16,15 @@ samples<-substr(a$a,start = 1,stop = (b[,1])-2)
 samples<-as.data.frame(unique(samples))
 names(samples)<-c("id")
 
+
 samples$readone<-paste(samples$id,"_L001_R1_001.fastq",sep="")
 samples$readtwo<-paste(samples$id,"_L001_R2_001.fastq",sep="")
 if(length(which(samples$id==""))>0){samples<-samples[-which(samples$id==""),]}
 
 
 
-#run HLA typing analysis on all specimens
+message("running HLA typing analysis on all specimens")
+
 for (i in 1:dim(samples)[1])
 {
 sink(paste("logs/",samples$id[i],".log",sep=""))

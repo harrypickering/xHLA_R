@@ -34,10 +34,10 @@ Ensure that you have installed the burrows wheeler aligner (BWA), the diamond al
 
 We use Macs, so homebrew is our method of choice for installing these dependencies
 
->brew install bwa
->brew install diamond
->brew install seqtk
-
+>brew install bwa  
+>brew install diamond  
+>brew install seqtk  
+  
 Install the R packages you will need. Some of these are native, but always worth checking.
 i.e. in R
 

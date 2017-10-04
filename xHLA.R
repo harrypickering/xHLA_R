@@ -86,7 +86,6 @@ message("reading results data")
   system("rm input/*.sam")
   system("rm input/*.bam")
   system("rm input/*.bai")
-  system(paste ("rm -rf hla-",samples$id[i],"a/",sep=""))
-  system(paste ("rm -rf hla-",samples$id[i],"b/",sep=""))
+  system(paste ("rm -rf hla-",samples$id[i],"/",sep="")) 
   message("done")
 }

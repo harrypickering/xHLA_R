@@ -65,14 +65,14 @@ IMPORTANT - The diamond reference database file (hla.dmnd) needs to be built wit
 
 Running the xHLA_R script
 ------------
-Put your paired end read fastq files in the input folder
-Run the 0000_super_master_controller_batchmode.R script (either through R, Rstudio or from the command line
+Put your paired end read fastq files in the input folder  
+Run the xHLA_R.R script (either through R, Rstudio or from the command line
 
 Command Line
->Rscript 0000_super_master_controller_batchmode.R
+>Rscript xHLA_R.R
 
 Command Line in background with log
->nohup Rscript 0000_super_master_controller_batchmode.R &
+>nohup Rscript xHLA_R.R &
 
 the report files will go to nohup.txt and you can monitor the progress with
 >tail -f nohup.txt

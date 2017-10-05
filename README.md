@@ -152,4 +152,4 @@ USE, LOSS OF DATA, DOWNTIME, OR FOR LOSS OF REVENUE, PROFITS, GOODWILL, BUSINESS
 OR OTHER FINANCIAL LOSS.
 
 
-Changes made to The Code by Chrissy h Roberts inherit all the terms of the above license.
+The xHLA_R fork inherits all the terms of the above license.

@@ -50,11 +50,16 @@ system(paste("perl bin/typer.sh input/",samples$id[i],".sorted.bam ",samples$id[
 
 
 message("reading results data")  
-  tmp1<-fromJSON(txt=paste("hla-",samples$id[i],"/",samples$id[i],".json",sep=""))
+  if (length(list.files(paste("hla-",samples$id[i],"/",sep=""),pattern=".json"))>0)
+{
+  tmp1<-fromJSON(txt=paste("hla-",samples$id[i],"/",samples$id[i],".json",sep=""))	
   write_json(x = tmp1,path = paste("output/",samples$id[i],".json",sep=""))
+}
 
 
   #prepare format for first specimen
+  if (samples$id[i] %in% gsub(".json","",(list.files("output/",pattern=".json"))))
+{
   tmp<-fromJSON(txt=paste("output/",samples$id[i],".json",sep=""))
   sampleID<-tmp$subject_id
   outputreport<-as.data.frame(sampleID,stringsAsFactors = F)
@@ -81,7 +86,7 @@ message("reading results data")
   message("writing results to output/000_alldata_out.txt")
   if(file.exists("output/000_alldata_out.txt")){write.table(outputreport,append = T,file = "output/000_alldata_out.txt",col.names = F,row.names = F,sep = "\t",quote=F)}
   if(!file.exists("output/000_alldata_out.txt")){write.table(outputreport,append = F,file = "output/000_alldata_out.txt",col.names = T,row.names = F,sep = "\t",quote=F)}
-	
+}	
   system("rm input/input_tmp*.fastq")
   system("rm input/*.sam")
   system("rm input/*.bam")
